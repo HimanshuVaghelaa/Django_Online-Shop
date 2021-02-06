@@ -1,5 +1,6 @@
 import os
 import braintree
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,11 +32,15 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',
     'coupons.apps.CouponsConfig',
+    'rosetta',
+    'parler',
+    'localflavor'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -98,7 +103,23 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('es', _('Spanish')),
+)
+
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'en'},
+        {'code': 'es'},
+    ),
+    'default': {
+        'fallback': 'en',
+        'hide_untranslated': False,
+    }
+}
 
 TIME_ZONE = 'UTC'
 
@@ -124,13 +145,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Braintree settings
-BRAINTREE_MERCHANT_ID = ''
-BRAINTREE_PUBLIC_KEY = ''
-BRAINTREE_PRIVATE_KEY = ''
+BRAINTREE_MERCHANT_ID = '7srbscbdh4p98sr3'
+BRAINTREE_PUBLIC_KEY = 'whvyn66h6qd95pzw'
+BRAINTREE_PRIVATE_KEY = '66048fed74a8edafc8acfc8d6541ca27'
 
 BRAINTREE_CONF = braintree.Configuration(
     braintree.Environment.Sandbox,
     BRAINTREE_MERCHANT_ID,
     BRAINTREE_PUBLIC_KEY,
     BRAINTREE_PRIVATE_KEY
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale/'),
 )
