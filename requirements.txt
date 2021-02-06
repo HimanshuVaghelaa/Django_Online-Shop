@@ -28,6 +28,7 @@ pycparser==2.20
 Pyphen==0.10.0
 python-stdnum==1.15
 pytz==2020.5
+redis==3.5.3
 requests==2.25.1
 six==1.15.0
 sqlparse==0.4.1
